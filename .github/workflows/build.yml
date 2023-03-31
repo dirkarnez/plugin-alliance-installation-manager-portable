@@ -16,8 +16,25 @@ jobs:
       - name: installer
         shell: cmd
         run: |
-          aria2c --max-tries=20 --retry-wait=5 https://www.plugin-alliance.com/en/installation-manager.html?file=products/installer/pa_installation_manager_win_1_2_4.zip &&^
-          7z.exe x pa_installation_manager_win_1_2_4.zip
+          curl 'https://files.plugin-alliance.com/products/installer/pa_installation_manager_win_1_2_4.zip' \
+            -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' \
+            -H 'Accept-Language: en-US,en;q=0.9' \
+            -H 'Cache-Control: no-cache' \
+            -H 'Connection: keep-alive' \
+            -H 'Cookie: __utmc=92546396; _fbp=fb.1.1680254794388.2139011160; __utma=92546396.409964832.1680254794.1680254794.1680257602.2; __utmb=92546396.0.10.1680257602; __utmz=92546396.1680257602.2.2.utmcsr=transactional|utmccn=order_success|utmcmd=email' \
+            -H 'Pragma: no-cache' \
+            -H 'Referer: https://www.plugin-alliance.com/en/installation-manager.html' \
+            -H 'Sec-Fetch-Dest: document' \
+            -H 'Sec-Fetch-Mode: navigate' \
+            -H 'Sec-Fetch-Site: same-site' \
+            -H 'Sec-Fetch-User: ?1' \
+            -H 'Upgrade-Insecure-Requests: 1' \
+            -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36' \
+            -H 'sec-ch-ua: "Chromium";v="107", "Not=A?Brand";v="24"' \
+            -H 'sec-ch-ua-mobile: ?0' \
+            -H 'sec-ch-ua-platform: "Windows"' \
+            --compressed -L -O -J && \
+            7z.exe x pa_installation_manager_win_1_2_4.zip
           
       - name: innoextract 
         shell: cmd
