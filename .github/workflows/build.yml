@@ -16,7 +16,7 @@ jobs:
       - name: installer
         shell: cmd
         run: |
-          aria2c --max-tries=20 --retry-wait=5 'https://www.plugin-alliance.com/en/installation-manager.html?file=products/installer/pa_installation_manager_win_1_2_4.zip' &&^
+          aria2c --max-tries=20 --retry-wait=5 https://www.plugin-alliance.com/en/installation-manager.html?file=products/installer/pa_installation_manager_win_1_2_4.zip &&^
           7z.exe x pa_installation_manager_win_1_2_4.zip
           
       - name: innoextract 
