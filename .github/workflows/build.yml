@@ -14,10 +14,10 @@ jobs:
       targetZip: plugin-alliance-installation-manager-portable-${{ github.ref_name }}.zip
     steps:
       - name: installer
-        shell: bash
+        shell: cmd
         run: |
-          curl 'https://www.plugin-alliance.com/en/installation-manager.html?file=products/installer/pa_installation_manager_win_1_2_4.zip' \
-          -L --output installer.zip && 7z.exe x installer.zip
+          aria2 'https://www.plugin-alliance.com/en/installation-manager.html?file=products/installer/pa_installation_manager_win_1_2_4.zip' &&^
+          7z.exe x pa_installation_manager_win_1_2_4.zip
           
       - name: innoextract 
         shell: cmd
@@ -27,12 +27,7 @@ jobs:
           
       - shell: cmd
         run: .\innoextract.exe "Installation Manager 1.2.4 Setup.exe"
-          
-      - name: rename
-        shell: cmd
-        run: |
-          rename "Authorization Manager (1.0.26)" "Authorization_Manager"
-          
+        
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
