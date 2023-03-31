@@ -16,13 +16,13 @@ jobs:
       - name: installer
         shell: cmd
         run: |
-          aria2c 'https://www.plugin-alliance.com/en/installation-manager.html?file=products/installer/pa_installation_manager_win_1_2_4.zip' &&^
+          aria2c --max-tries=20 --retry-wait=5 'https://www.plugin-alliance.com/en/installation-manager.html?file=products/installer/pa_installation_manager_win_1_2_4.zip' &&^
           7z.exe x pa_installation_manager_win_1_2_4.zip
           
       - name: innoextract 
         shell: cmd
         run: | 
-          aria2c https://github.com/dscharrer/innoextract/releases/download/1.9/innoextract-1.9-windows.zip &&^
+          aria2c --max-tries=20 --retry-wait=5 https://github.com/dscharrer/innoextract/releases/download/1.9/innoextract-1.9-windows.zip &&^
           7z.exe x innoextract-1.9-windows.zip
           
       - shell: cmd
