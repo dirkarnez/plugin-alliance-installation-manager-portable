@@ -1,0 +1,48 @@
+name: portable-release-actions-workflow
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - 'c*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      
+jobs:
+  build:
+    name: Create Release
+    runs-on: windows-latest
+    env:
+      targetZip: plugin-alliance-installation-manager-portable-${{ github.ref_name }}.zip
+    steps:
+      - name: installer
+        shell: bash
+        run: |
+          curl 'https://www.plugin-alliance.com/en/installation-manager.html?file=products/installer/pa_installation_manager_win_1_2_4.zip' \
+          -L --output installer.zip && 7z.exe x installer.zip
+          
+      - name: innoextract 
+        shell: cmd
+        run: | 
+          curl https://github.com/dscharrer/innoextract/releases/download/1.9/innoextract-1.9-windows.zip -L --output innoextract-1.9-windows.zip &&^
+          7z.exe x innoextract-1.9-windows.zip
+          
+      - shell: cmd
+        run: .\innoextract.exe "Installation Manager 1.2.4 Setup.exe"
+          
+      - name: rename
+        shell: cmd
+        run: |
+          rename "Authorization Manager (1.0.26)" "Authorization_Manager"
+          
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          directory: "app"
+          filename: "${{ env.targetZip }}"
+          
+      - name: Release prebuilt
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "app/${{ env.targetZip }}"
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
